@@ -1,0 +1,8 @@
+Revision history for Dancer-Plugin-Formatter
+
+0.01    25 Jan 2015
+        Initial version.
+        Functions added: format_date == date, set_default_date_format
+        Available output formats: dd.mm.yyyy, mm/dd/yyyy, yyyy-mm-dd
+
+0.02    2? Jan 2015
