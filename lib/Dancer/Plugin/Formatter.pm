@@ -1,40 +1,7 @@
 package Dancer::Plugin::Formatter;
+
+our @ISA = qw();
 our $VERSION = '0.01';
-
-=head1 NAME
-
-Dancer::Plugin::Formatter - Data formatter for Dancer
-
-=head1 VERSION
-
-version 0.01
-
-=head1 DESCRIPTION
-
-Provides an easy way to reformat dates and other data in templates. 
-
-=head1 CONFIGURATION
-
-In your configuration file, make sure you have enable this plugin. You can list options right here:
-
-  plugins:
-    Formatter:
-      default_date_format: "dd.mm.yyyy"
-
-or default format can be changed later:
-
-  # in code
-  $Dancer::Plugin::Formatter::default_date_format = 'mm/dd/yyyy';
-
-  # in template
-  : set_default_date_format('yyyy-mm-dd');
-
-=head1 USAGE  
-
-  # in template
-  <: $today | format_date :>
-
-=cut
 
 use strict;
 use warnings;
@@ -77,6 +44,39 @@ register_plugin;
 1;
 
 __END__
+
+=head1 NAME
+
+Dancer::Plugin::Formatter - Data formatter for Dancer
+
+=head1 VERSION
+
+version 0.01
+
+=head1 DESCRIPTION
+
+Provides an easy way to reformat dates and other data in templates. 
+
+=head1 CONFIGURATION
+
+In your configuration file, make sure you have enable this plugin. You can list options right here:
+
+  plugins:
+    Formatter:
+      default_date_format: "dd.mm.yyyy"
+
+or default format can be changed later:
+
+  # in code
+  $Dancer::Plugin::Formatter::default_date_format = 'mm/dd/yyyy';
+
+  # in template
+  : set_default_date_format('yyyy-mm-dd');
+
+=head1 USAGE  
+
+  # in template
+  <: $today | format_date :>
 
 =head1 METHODS
 
@@ -157,7 +157,7 @@ L<Dancer>
 =head1 COPYRIGHT AND LICENSE
 
 Copyright 2015 Alexander Sapozhnikov
-E<lt>L<shoorick@cpan.org>E<gt> L<http://shoorick.ru>
+E<lt>shoorick@cpan.orgE<gt> L<http://shoorick.ru>
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl programming language system itself.

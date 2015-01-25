@@ -1,0 +1,6 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/Dancer-Plugin-Formatter.t
+lib/Dancer/Plugin/Formatter.pm
