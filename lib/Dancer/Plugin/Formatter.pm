@@ -1,7 +1,7 @@
 package Dancer::Plugin::Formatter;
 
 our @ISA = qw();
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use strict;
 use warnings;
@@ -37,6 +37,13 @@ register 'format_date' => sub {
 register 'set_default_date_format' => sub {
     $default_date_format = shift;
     return;
+};
+
+register 'format' => sub {
+	my $format = shift;
+	return sub {
+		return sprintf $format, @_;
+	};
 };
 
 register_plugin;
@@ -80,6 +87,20 @@ or default format can be changed later:
 
 =head1 METHODS
 
+=head2 format
+
+Format string or number by the usual "printf" conventions
+of the C library function "sprintf".
+See L<sprintf>, L<sprintf(3)> or L<printf(3)> on your system
+for an explanation of the general principles.
+
+Example:
+
+	<: $pi | format('%.4f') :>
+
+will may return C<3.1416>.
+
+
 =head2 format_date
 
 Changes format of provided date.
@@ -91,7 +112,7 @@ or
     <% date('2015-01-25') %>
     <% $date_variable | date %>
 
-Input should be a ISO 8601 date - YYYY-MM-DD
+Input should be a ISO 8601 date - C<YYYY-MM-DD>.
 
 =head2 set_default_date_format
 

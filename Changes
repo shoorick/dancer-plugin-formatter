@@ -8,4 +8,5 @@ Revision history for Perl module Dancer::Plugin::Formatter
 TO DO
 
 0.02    ?? Jan 2015
+        - Filter `format` added: it calls sprintf function
         - More formats
