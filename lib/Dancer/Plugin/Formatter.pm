@@ -12,26 +12,21 @@ use Dancer::Plugin;
 # TODO Format should be chosen from user/locale settings
 our $default_date_format = 'dd.mm.yyyy';
 
-sub _format_date {
-	# Quick and dirty date formatter:
-	# YYYY-MM-DD to MM.DD.YYYY
-	my @parts = split /\D/, shift;
-    my $format = $default_date_format; # TODO get from args
-
-	# Reorder parts
-	return join '.', @parts[2, 1, 0] if $format eq 'dd.mm.yyyy';
-	return join '/', @parts[1, 2, 0] if $format eq 'mm/dd/yyyy';
-	# else
-    # fallback to yyyy-mm-dd
-	return join '-', @parts[0, 1, 2];
-}
-
-register 'date' => sub {
-    _format_date(@_);
-};
 
 register 'format_date' => sub {
-    _format_date(@_);
+    my $format = $_[0] // $default_date_format;
+	return sub {
+		# Quick and dirty date formatter:
+		# YYYY-MM-DD to MM.DD.YYYY
+		my @parts = split /\D/, shift;
+
+		# Reorder parts
+		return join '.', @parts[2, 1, 0] if $format eq 'dd.mm.yyyy';
+		return join '/', @parts[1, 2, 0] if $format eq 'mm/dd/yyyy';
+		# else
+		# fallback to yyyy-mm-dd
+		return join '-', @parts[0, 1, 2];
+	}
 };
 
 register 'set_default_date_format' => sub {
@@ -62,7 +57,7 @@ version 0.01
 
 =head1 DESCRIPTION
 
-Provides an easy way to reformat dates and other data in templates. 
+Provides an easy way to reformat dates and other data in templates.
 
 =head1 CONFIGURATION
 
@@ -80,7 +75,7 @@ or default format can be changed later:
   # in template
   : set_default_date_format('yyyy-mm-dd');
 
-=head1 USAGE  
+=head1 USAGE
 
   # in template
   <: $today | format_date :>
@@ -106,7 +101,7 @@ will may return C<3.1416>.
 Changes format of provided date.
 
     format_date('2015-01-25');
-	
+
 or
 
     <% date('2015-01-25') %>
