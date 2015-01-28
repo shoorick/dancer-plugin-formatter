@@ -11,7 +11,6 @@ use Dancer::Plugin;
 
 use Date::Parse;
 use POSIX;
-use Data::Dumper::Perltidy;
 
 # see man 3 strftime
 our $default_date_format = '%x'; # The preferred date representation for the current locale without the time.
