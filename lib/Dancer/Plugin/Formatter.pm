@@ -226,7 +226,9 @@ L<https://github.com/shoorick/dancer-plugin-formatter>
 
 =head1 SEE ALSO
 
-L<Dancer>
+L<Dancer>,
+L<POSIX>, L<strftime(3)>,
+L<sprintf>, L<sprintf(3)> or L<printf(3)>
 
 =head1 COPYRIGHT AND LICENSE
 
