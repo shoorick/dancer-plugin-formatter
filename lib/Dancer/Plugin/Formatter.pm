@@ -13,30 +13,18 @@ use Date::Parse;
 use POSIX;
 use Data::Dumper::Perltidy;
 
-# TODO Format should be chosen from user/locale settings
-our $default_date_format = 'dd.mm.yyyy'; # handmade
-our $default_time_format = '%c'; # strftime
-
+# see man 3 strftime
+our $default_date_format = '%x'; # The preferred date representation for the current locale without the time.
+our $default_time_format = '%c'; # The preferred date and time representation for the current locale.
 
 register 'format_date' => sub {
     my $format = shift // $default_date_format;
 	return sub {
-		# Quick and dirty date formatter:
-		# YYYY-MM-DD to MM.DD.YYYY
-		my @parts = split /\D/, shift;
-
-		# Reorder parts
-		return join '.', @parts[2, 1, 0] if $format eq 'dd.mm.yyyy';
-		return join '/', @parts[1, 2, 0] if $format eq 'mm/dd/yyyy';
-		# else
-		# fallback to yyyy-mm-dd
-		return join '-', @parts[0, 1, 2];
+		my @parts = map { $_ //= 0 } strptime shift;
+		# undefined parts set to 0 to prevent error
+		# Use of uninitialized value in subroutine entry
+		return POSIX::strftime $format, @parts;
 	}
-};
-
-register 'set_default_date_format' => sub {
-    $default_date_format = shift;
-    return;
 };
 
 register 'format_time' => sub {
@@ -47,6 +35,11 @@ register 'format_time' => sub {
 		# Use of uninitialized value in subroutine entry
 		return POSIX::strftime $format, @parts;
 	}
+};
+
+register 'set_default_date_format' => sub {
+    $default_date_format = shift;
+    return;
 };
 
 register 'set_default_time_format' => sub {
@@ -144,37 +137,23 @@ Input can have any format which recognized by L<Date::Parse>:
 	1999 10:02:18 "GMT"
 	16 Nov 94 22:28:20 PST
 
+=head2 format_date
+
+Same as above but default date/time format
+stored in C<$Dancer::Plugin::Formatter::default_time_format>
+and can be changed via C<set_default_date_format>.
+
 =head2 set_default_time_format
 
-Sets default date format.
+Sets default format for time output.
 
     set_default_time_format('%m/%d/%y')
 
 See L<strftime(3)> for format explanation.
 
-=head2 DEPRECATED METHODS
+=head2 set_default_date_format
 
-=head3 format_date
-
-Changes format of provided date.
-
-    format_date('2015-01-25');
-
-or
-
-    <% date('2015-01-25') %>
-    <% $date_variable | date %>
-
-Input should be a ISO 8601 date - C<YYYY-MM-DD>.
-
-=head3 set_default_date_format
-
-Sets default date format.
-
-    set_default_date_format('mm/dd/yyyy')
-
-Available values: C<'dd.mm.yyyy'>, C<'mm/dd/yyyy'>, C<'yyyy-mm-dd'>.
-Please feel free to suggest other formats to me - see below.
+Same as above, for C<$Dancer::Plugin::Formatter::default_time_format>.
 
 =head1 CONTRIBUTING
 
