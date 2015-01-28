@@ -9,12 +9,17 @@ use warnings;
 use Dancer ':syntax';
 use Dancer::Plugin;
 
+use Date::Parse;
+use POSIX;
+use Data::Dumper::Perltidy;
+
 # TODO Format should be chosen from user/locale settings
-our $default_date_format = 'dd.mm.yyyy';
+our $default_date_format = 'dd.mm.yyyy'; # handmade
+our $default_time_format = '%c'; # strftime
 
 
 register 'format_date' => sub {
-    my $format = $_[0] // $default_date_format;
+    my $format = shift // $default_date_format;
 	return sub {
 		# Quick and dirty date formatter:
 		# YYYY-MM-DD to MM.DD.YYYY
@@ -33,6 +38,22 @@ register 'set_default_date_format' => sub {
     $default_date_format = shift;
     return;
 };
+
+register 'format_time' => sub {
+    my $format = shift // $default_time_format;
+	return sub {
+		my @parts = map { $_ //= 0 } strptime shift;
+		# undefined parts set to 0 to prevent error
+		# Use of uninitialized value in subroutine entry
+		return POSIX::strftime $format, @parts;
+	}
+};
+
+register 'set_default_time_format' => sub {
+    $default_time_format = shift;
+    return;
+};
+
 
 register 'format' => sub {
 	my $format = shift;
@@ -53,32 +74,34 @@ Dancer::Plugin::Formatter - Data formatter for Dancer
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 DESCRIPTION
 
-Provides an easy way to reformat dates and other data in templates.
+Provides an easy way to reformat time/date and other data in templates.
 
 =head1 CONFIGURATION
 
-In your configuration file, make sure you have enable this plugin. You can list options right here:
+In your configuration file, make sure you have enable this plugin.
+You can list options right here:
 
   plugins:
     Formatter:
-      default_date_format: "dd.mm.yyyy"
+      default_time_format: "%a, %x - %X"
 
 or default format can be changed later:
 
   # in code
-  $Dancer::Plugin::Formatter::default_date_format = 'mm/dd/yyyy';
+  $Dancer::Plugin::Formatter::default_time_format = '%Y%m%d';
 
   # in template
-  : set_default_date_format('yyyy-mm-dd');
+  : set_default_date_format('%Y%m%d');
 
 =head1 USAGE
 
   # in template
-  <: $today | format_date :>
+  <: $today | format_date()  :><!-- use default date/time format -->
+  <: $e     | format('%.7f') :><!-- sprintf's format rules -->
 
 =head1 METHODS
 
@@ -95,8 +118,43 @@ Example:
 
 will may return C<3.1416>.
 
+=head2 format_time
 
-=head2 format_date
+Parse provided date/time via C<L<Date::Parse>::strptime> and print it as arbitrary string.
+See L<strftime(3)> for format explanation.
+
+    format_time('21/dec/42 17:05', '%Y, %e %B, %A');
+
+or
+
+    <% date('2015-01-25') %>
+    <% $date_variable | date %>
+
+Input can have any format which recognized by L<Date::Parse>:
+
+	1995:01:24T09:08:17.1823213           ISO-8601
+	1995-01-24T09:08:17.1823213
+	Wed, 16 Jun 94 07:29:35 CST           Comma and day name are optional
+	Thu, 13 Oct 94 10:13:13 -0700
+	Wed, 9 Nov 1994 09:50:32 -0500 (EST)  Text in ()'s will be ignored.
+	21 dec 17:05                          Will be parsed in the current time zone
+	21-dec 17:05
+	21/dec 17:05
+	21/dec/93 17:05
+	1999 10:02:18 "GMT"
+	16 Nov 94 22:28:20 PST
+
+=head2 set_default_time_format
+
+Sets default date format.
+
+    set_default_time_format('%m/%d/%y')
+
+See L<strftime(3)> for format explanation.
+
+=head2 DEPRECATED METHODS
+
+=head3 format_date
 
 Changes format of provided date.
 
@@ -109,7 +167,7 @@ or
 
 Input should be a ISO 8601 date - C<YYYY-MM-DD>.
 
-=head2 set_default_date_format
+=head3 set_default_date_format
 
 Sets default date format.
 
