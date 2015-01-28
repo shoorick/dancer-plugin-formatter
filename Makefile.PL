@@ -9,7 +9,8 @@ WriteMakefile(
         'Dancer'         => 1,
         'Dancer::Plugin' => 1,
         'POSIX'          => 0,
-        'Data::Parse'    => 1,
+        'Data::Parse'    => 0,
+        'Test::More'     => 0,
     }, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Dancer/Plugin/Formatter.pm', # retrieve abstract from module
