@@ -5,7 +5,7 @@ Revision history for Perl module Dancer::Plugin::Formatter
         - Functions added: format_date == date, set_default_date_format
         - Available output formats: dd.mm.yyyy, mm/dd/yyyy, yyyy-mm-dd
 
-0.02    29 Jan 2015
+0.02    28 Jan 2015
         - Function `format` added: it calls sprintf function.
         - Dates parsed by Data::Parse module. All of its input formats are allowed.
         - Function `format_time` and `set_default_time_format` added
@@ -16,3 +16,7 @@ Revision history for Perl module Dancer::Plugin::Formatter
         - "Handmade" output formats (dd.mm.yyyy, mm/dd/yyyy, yyyy-mm-dd) does not recornized now,
         use %d.%m.%Y, %D, and %F respectively instead of old formats.
         Formatting performed by `POSIX::strftime`, see `man 3 strftime` for format explanation.
+
+0.03    29 Jan 2015
+        - Recursive dependency fixed.
+        - Test added.
