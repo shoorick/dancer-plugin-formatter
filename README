@@ -1,4 +1,4 @@
-Dancer-Plugin-Formatter version 0.01
+Dancer-Plugin-Formatter version 0.02
 ====================================
 
 The README is used to introduce the module and provide instructions on
@@ -25,11 +25,11 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  blah blah blah
+  Dancer
+  Date::Parse
+  POSIX
 
 COPYRIGHT AND LICENCE
-
-Put the correct copyright and licence information here.
 
 Copyright (C) 2015 by Alexander Sapozhnikov
 
