@@ -12,7 +12,6 @@ WriteMakefile(
         'Data::Parse'    => 0,
     },
     TEST_REQUIRES => {
-        'Dancer::Plugin::Formatter' => 0,
         'Test::Simple'   => 0,
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
