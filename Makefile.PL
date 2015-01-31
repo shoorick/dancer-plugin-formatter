@@ -9,7 +9,7 @@ WriteMakefile(
         'Dancer'         => 1,
         'Dancer::Plugin' => 1,
         'POSIX'          => 0,
-        'Data::Parse'    => 0,
+        'Date::Parse'    => 0,
     },
     TEST_REQUIRES => {
         'Test::Simple'   => 0,
