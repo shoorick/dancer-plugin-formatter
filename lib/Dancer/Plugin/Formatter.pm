@@ -19,7 +19,11 @@ our $default_time_format = '%c'; # The preferred date and time representation fo
 register 'format_date' => sub {
     my $format = shift // $default_date_format;
 	return sub {
-		my @parts = map { $_ //= 0 } strptime shift;
+		my $date = shift;
+		return undef unless defined $date;
+		return '' if $date eq '';
+
+		my @parts = map { $_ //= 0 } strptime $date;
 		# undefined parts set to 0 to prevent error
 		# Use of uninitialized value in subroutine entry
 		return POSIX::strftime $format, @parts;
@@ -29,7 +33,11 @@ register 'format_date' => sub {
 register 'format_time' => sub {
     my $format = shift // $default_time_format;
 	return sub {
-		my @parts = map { $_ //= 0 } strptime shift;
+		my $time = shift;
+		return undef unless defined $time;
+		return '' if $time eq '';
+
+		my @parts = map { $_ //= 0 } strptime $time;
 		# undefined parts set to 0 to prevent error
 		# Use of uninitialized value in subroutine entry
 		return POSIX::strftime $format, @parts;
