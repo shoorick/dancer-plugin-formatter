@@ -20,3 +20,6 @@ Revision history for Perl module Dancer::Plugin::Formatter
 0.03    29 Jan 2015
         - Recursive dependency fixed.
         - Test added.
+
+0.04    31 Jan 2015
+        - Empty and undefined arguments does not cause errors.
