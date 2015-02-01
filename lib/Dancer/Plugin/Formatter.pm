@@ -18,38 +18,38 @@ our $default_time_format = '%c'; # The preferred date and time representation fo
 
 register 'format_date' => sub {
     my $format = shift // $default_date_format;
-	return sub {
-		my $date = shift;
-		return undef unless defined $date;
-		return '' if $date eq '';
+    return sub {
+        my $date = shift;
+        return undef unless defined $date;
+        return '' if $date eq '';
 
-		my @parts = map { $_ //= 0 } strptime $date;
-		# undefined parts set to 0 to prevent error
-		# Use of uninitialized value in subroutine entry
+        my @parts = map { $_ //= 0 } strptime $date;
+        # undefined parts set to 0 to prevent error
+        # Use of uninitialized value in subroutine entry
 
-		@parts = localtime $date
-			if $date =~ /^\d+$/; # unixtime - seconds since epoch
+        @parts = localtime $date
+            if $date =~ /^\d+$/; # unixtime - seconds since epoch
 
-		return POSIX::strftime $format, @parts;
-	}
+        return POSIX::strftime $format, @parts;
+    }
 };
 
 register 'format_time' => sub {
     my $format = shift // $default_time_format;
-	return sub {
-		my $time = shift;
-		return undef unless defined $time;
-		return '' if $time eq '';
+    return sub {
+        my $time = shift;
+        return undef unless defined $time;
+        return '' if $time eq '';
 
-		my @parts = map { $_ //= 0 } strptime $time;
-		# undefined parts set to 0 to prevent error
-		# Use of uninitialized value in subroutine entry
+        my @parts = map { $_ //= 0 } strptime $time;
+        # undefined parts set to 0 to prevent error
+        # Use of uninitialized value in subroutine entry
 
-		@parts = localtime $time
-			if $time =~ /^\d+$/; # unixtime - seconds since epoch
+        @parts = localtime $time
+            if $time =~ /^\d+$/; # unixtime - seconds since epoch
 
-		return POSIX::strftime $format, @parts;
-	}
+        return POSIX::strftime $format, @parts;
+    }
 };
 
 register 'set_default_date_format' => sub {
@@ -64,10 +64,10 @@ register 'set_default_time_format' => sub {
 
 
 register 'format' => sub {
-	my $format = shift;
-	return sub {
-		return sprintf $format, @_;
-	};
+    my $format = shift;
+    return sub {
+        return sprintf $format, @_;
+    };
 };
 
 register_plugin;
@@ -122,7 +122,7 @@ for an explanation of the general principles.
 
 Example:
 
-	<: $pi | format('%.4f') :>
+    <: $pi | format('%.4f') :>
 
 will may return C<3.1416>.
 
@@ -140,17 +140,17 @@ or
 
 Input can have any format which recognized by L<Date::Parse>:
 
-	1995:01:24T09:08:17.1823213           ISO-8601
-	1995-01-24T09:08:17.1823213
-	Wed, 16 Jun 94 07:29:35 CST           Comma and day name are optional
-	Thu, 13 Oct 94 10:13:13 -0700
-	Wed, 9 Nov 1994 09:50:32 -0500 (EST)  Text in ()'s will be ignored.
-	21 dec 17:05                          Will be parsed in the current time zone
-	21-dec 17:05
-	21/dec 17:05
-	21/dec/93 17:05
-	1999 10:02:18 "GMT"
-	16 Nov 94 22:28:20 PST
+    1995:01:24T09:08:17.1823213           ISO-8601
+    1995-01-24T09:08:17.1823213
+    Wed, 16 Jun 94 07:29:35 CST           Comma and day name are optional
+    Thu, 13 Oct 94 10:13:13 -0700
+    Wed, 9 Nov 1994 09:50:32 -0500 (EST)  Text in ()'s will be ignored.
+    21 dec 17:05                          Will be parsed in the current time zone
+    21-dec 17:05
+    21/dec 17:05
+    21/dec/93 17:05
+    1999 10:02:18 "GMT"
+    16 Nov 94 22:28:20 PST
 
 =head2 format_date
 
