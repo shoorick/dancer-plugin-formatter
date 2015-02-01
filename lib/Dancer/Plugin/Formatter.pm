@@ -26,6 +26,10 @@ register 'format_date' => sub {
 		my @parts = map { $_ //= 0 } strptime $date;
 		# undefined parts set to 0 to prevent error
 		# Use of uninitialized value in subroutine entry
+
+		@parts = localtime $date
+			if $date =~ /^\d+$/; # unixtime - seconds since epoch
+
 		return POSIX::strftime $format, @parts;
 	}
 };
@@ -40,6 +44,10 @@ register 'format_time' => sub {
 		my @parts = map { $_ //= 0 } strptime $time;
 		# undefined parts set to 0 to prevent error
 		# Use of uninitialized value in subroutine entry
+
+		@parts = localtime $time
+			if $time =~ /^\d+$/; # unixtime - seconds since epoch
+
 		return POSIX::strftime $format, @parts;
 	}
 };
