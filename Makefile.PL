@@ -14,6 +14,10 @@ WriteMakefile(
     TEST_REQUIRES => {
         'Test::More'   => 0,
     },
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        dynamic_config => 0,
+    },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Dancer/Plugin/Formatter.pm', # retrieve abstract from module
        AUTHOR         => 'Alexander Sapozhnikov <shoorick@cpan.org>') : ()),
