@@ -23,3 +23,6 @@ Revision history for Perl module Dancer::Plugin::Formatter
 
 0.04    31 Jan 2015
         - Empty and undefined arguments does not cause errors.
+
+0.05    01 Feb 2015
+        - Unixtime (seconds since epoch) is recognized as input data.
