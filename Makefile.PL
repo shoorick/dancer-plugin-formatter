@@ -12,7 +12,7 @@ WriteMakefile(
         'Date::Parse'    => 0,
     },
     TEST_REQUIRES => {
-        'Test::Simple'   => 0,
+        'Test::More'   => 0,
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Dancer/Plugin/Formatter.pm', # retrieve abstract from module
