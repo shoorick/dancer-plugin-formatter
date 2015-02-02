@@ -6,3 +6,4 @@ lib/Dancer/Plugin/Formatter.pm
 t/001_base.t
 t/003_format.t
 t/004_undefined.t
+t/005_unixtime.t
